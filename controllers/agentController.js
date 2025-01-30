@@ -33,3 +33,21 @@ exports.addAgent = async (req, res) => {
 };
 
 
+// Get agent by ID
+exports.getAgentById = async (req, res) => {
+    try {
+      const agentId = req.params.id;
+  
+      // Fetch agent by ID
+      const agent = await Agent.findById(agentId);
+  
+      if (!agent) {
+        return res.status(404).json({ message: "Agent not found" });
+      }
+  
+      res.status(200).json({ success: true, data: agent });
+    } catch (error) {
+      console.error("Error fetching agent:", error.message);
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  };

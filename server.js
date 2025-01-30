@@ -25,14 +25,15 @@ app.use(cors({
 
 const authRoutes = require('./routers/authRoutes');
 const agentRoutes = require('./routers/agentRoutes');
-const listRoutes = require('./routers/listRoutes');
+const taskRoutes = require('./routers/taskRoutes');
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/', authRoutes);
 app.use('/',agentRoutes);
-app.use('/',listRoutes);
+app.use('/',taskRoutes);
+
 
 
 app.get('/',(req,res)=>{
