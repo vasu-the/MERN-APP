@@ -34,12 +34,11 @@ exports.addAgent = async (req, res) => {
 
 
 // Get agent by ID
-exports.getAgentById = async (req, res) => {
+exports.getAllAgent = async (req, res) => {
     try {
-      const agentId = req.params.id;
   
       // Fetch agent by ID
-      const agent = await Agent.findById(agentId);
+      const agent = await Agent.find();
   
       if (!agent) {
         return res.status(404).json({ message: "Agent not found" });

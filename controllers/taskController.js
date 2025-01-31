@@ -10,6 +10,7 @@ const path = require("path");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = path.join(__dirname, "../uploads");
+    console.log("Upload directory:", uploadDir);
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir); // Ensure uploads directory exists
     }
@@ -17,6 +18,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    console.log("Uploading file with name:", uniqueSuffix + "-" + file.originalname); // Debugging filename
     cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
@@ -77,8 +79,10 @@ const distributeTasks = (tasks, agents) => {
 // Controller to handle file upload and task distribution
 exports.uploadAndDistributeTasks = async (req, res) => {
   upload(req, res, async (err) => {
-    if (err) return res.status(400).json({ error: err.message });
-
+    if (err) {
+      console.error("Upload error:", err);
+      return res.status(400).json({ error: err.message });
+    }
     try {
       if (!req.file) {
         return res.status(400).json({ error: "No file uploaded." });
