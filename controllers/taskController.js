@@ -89,7 +89,7 @@ exports.uploadAndDistributeTasks = async (req, res) => {
       }
 
       const filePath = req.file.path;
-    //   console.log("Uploaded file path:", filePath);
+      //   console.log("Uploaded file path:", filePath);
 
       // Parse and validate file content
       const tasks = await parseFile(filePath);
@@ -131,28 +131,28 @@ exports.uploadAndDistributeTasks = async (req, res) => {
 
 // Get agent by ID with tasks
 exports.getAgentByIdWithTasks = async (req, res) => {
-    try {
-      const agentId = req.params.id;
-  
-      // Fetch agent by ID
-      const agent = await Agent.findById(agentId);
-  
-      if (!agent) {
-        return res.status(404).json({ message: "Agent not found" });
-      }
-  
-      // Fetch tasks assigned to the agent
-      const tasks = await Task.find({ agentId });
-  
-      res.status(200).json({
-        success: true,
-        data: {
-          agent,
-          tasks,
-        },
-      });
-    } catch (error) {
-      console.error("Error fetching agent and tasks:", error.message);
-      res.status(500).json({ success: false, message: "Internal server error" });
+  try {
+    const agentId = req.params.id;
+
+    // Fetch agent by ID
+    const agent = await Agent.findById(agentId);
+
+    if (!agent) {
+      return res.status(404).json({ message: "Agent not found" });
     }
-  };
+
+    // Fetch tasks assigned to the agent
+    const tasks = await Task.find({ agentId });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        agent,
+        tasks,
+      },
+    });
+  } catch (error) {
+    console.error("Error fetching agent and tasks:", error.message);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
